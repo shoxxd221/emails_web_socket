@@ -1,5 +1,9 @@
 from django.shortcuts import render
 
 
-def index(request):
-    return render(request, 'index.html')
+def gmail(request):
+    return render(request, 'gmail.html')
+
+
+def mail(request):
+    return render(request, 'mail.html')
