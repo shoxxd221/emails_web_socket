@@ -9,6 +9,7 @@ from .models import Email
 
 
 def create_email(msg):
+    """Создание сообщения в базе данных"""
     msg_date = date_parse(email.utils.parsedate_tz(msg['Date']))
     msg_subj = from_subj_decode(msg['Subject'])
     letter_text = get_letter_text(msg)
@@ -16,6 +17,7 @@ def create_email(msg):
 
 
 def date_parse(msg_date):
+    """Парсинг даты"""
     if not msg_date:
         return datetime.now()
     else:
@@ -26,10 +28,11 @@ def date_parse(msg_date):
 
 
 def from_subj_decode(msg_from_subj):
+    """Декодирование темы"""
     if msg_from_subj:
         encoding = decode_header(msg_from_subj)[0][1]
         msg_from_subj = decode_header(msg_from_subj)[0][0]
-        if isinstance(msg_from_subj, bytes):
+        if isinstance(msg_from_subj, bytes) and msg_from_subj is not None and encoding is not None:
             msg_from_subj = msg_from_subj.decode(encoding)
         if isinstance(msg_from_subj, str):
             pass
@@ -40,6 +43,7 @@ def from_subj_decode(msg_from_subj):
 
 
 def letter_type(part):
+    """Тип письма"""
     if part['Content-Transfer-Encoding'] in (None, '7bit', '8bit', 'binary'):
         return part.get_payload()
     elif part['Content-Transfer-Encoding'] == 'base64':
@@ -53,6 +57,7 @@ def letter_type(part):
 
 
 def get_letter_text_from_html(body):
+    """Получение текста письма из html"""
     body = body.replace('<div><div>', '<div>').replace('</div></div>', '</div>')
     try:
         soup = BeautifulSoup(body, 'html.parser')
@@ -67,6 +72,7 @@ def get_letter_text_from_html(body):
 
 
 def get_letter_text(msg):
+    """Получение готового текста письма"""
     if msg.is_multipart():
         for part in msg.walk():
             count = 0

@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Email(models.Model):
+    """Модель письма"""
     name = models.CharField(
         max_length=255,
         verbose_name='Тема'
@@ -11,8 +12,4 @@ class Email(models.Model):
     )
     text = models.TextField(
         verbose_name='Текст'
-    )
-    files = models.JSONField(
-        default=list,
-        verbose_name='Прикрепленные файлы'
     )
