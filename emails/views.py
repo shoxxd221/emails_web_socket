@@ -7,3 +7,7 @@ def gmail(request):
 
 def mail(request):
     return render(request, 'mail.html')
+
+
+def yandex(request):
+    return render(request, 'yandex.html')

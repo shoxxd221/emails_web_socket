@@ -49,3 +49,13 @@ class MailProvider(ImportProvider):
 
     def get_inbox(self):
         self.mail.select('INBOX')
+
+
+class YandexProvider(ImportProvider):
+    """Yandex провайдер"""
+
+    def __init__(self, user, password):
+        super().__init__(user, password, 'imap.yandex.ru')
+
+    def get_inbox(self):
+        self.mail.select('INBOX')
