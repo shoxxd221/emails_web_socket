@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block script %}
+    <script>
+        let socket = new WebSocket('ws://localhost:8000/ws/mail/')
+
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data)
+            document.querySelector('#loaded_emails').innerText = data.message
+
+            let emailDiv = document.createElement('div')
+            emailDiv.classList.add('card', 'mb-3')
+
+            let emailHeader = document.createElement('h5')
+            emailHeader.classList.add('card-header')
+            emailHeader.innerText = data.email_name
+
+            let emailBody = document.createElement('div')
+            emailBody.classList.add('card-body')
+
+            let emailText = document.createElement('p')
+            emailText.classList.add('card-text')
+            emailText.innerText = data.email_text
+
+            let emailDate = document.createElement('p')
+            emailDate.classList.add('card-text', 'text-muted')
+            emailDate.innerText = data.email_date
+
+            emailBody.appendChild(emailText)
+            emailBody.appendChild(emailDate)
+
+            emailDiv.appendChild(emailHeader)
+            emailDiv.appendChild(emailBody)
+
+            document.querySelector('#emails').appendChild(emailDiv)
+        }
+    </script>
+{% endblock %}

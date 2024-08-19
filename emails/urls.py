@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import index
+from .views import gmail, mail
 
 
 urlpatterns = [
-    path('', index)
+    path('gmail', gmail),
+    path('mail', mail),
 ]
